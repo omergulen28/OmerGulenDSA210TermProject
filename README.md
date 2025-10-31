@@ -1,38 +1,59 @@
-# Step Count vs Weather Analysis
-An analysis of how weather conditions especially temperature affect my daily step count and activity level using Apple Health and weather data.
+# Chess Move Pattern Analysis
+
+Project Proposal
+This project analyzes my online chess games to uncover patterns in my playing style.
+The main research questions include:
+What is my most frequent opening move?
+On average, at which move do I bring my queen into the game?
+How many moves do my games typically last?
+Do I play differently depending on whether I play white or black?
+The goal is to gain personal insight into my gameplay and explore data-driven techniques to understand chess behavior.
 
 Motivation
-Many people notice that their physical activity changes with the weather — for instance, we walk less on cold or rainy days. Through this project, I want to understand whether temperature and other environmental factors influence my daily movement patterns.
+I play online chess regularly, but I have never analyzed my own habits systematically. By collecting and analyzing my own game data, I aim to discover strengths, weaknesses, and playing tendencies that can help me improve as a player.
 
 Data Sources
-Apple Health Data: Exported directly from the Apple Health app on my iPhone as XML/CSV files.
-Weather Data: Collected using a public API such as Open-Meteo
- or Visual Crossing Weather API
-The data includes temperature, humidity, and precipitation levels for the same days as my step data.
+Primary Source: My personal game history from Chess.com (or Lichess.org). Both platforms provide an API that allows users to export all games in PGN or JSON format.
+Metadata Fields: Player color, opening name, ECO code, total move count, time control, result, and timestamps of moves.
 
 Data Collection Plan
-Export Apple Health data (steps, walking distance, active energy).
-Filter data by date (e.g., last 3–6 months)
-Retrieve daily weather information for my location and merge with Apple Health data using date as the key.
-Clean and preprocess the dataset (handle missing values, time zones, etc.).
+
+Use the Chess.com or Lichess API to download my full game history (in JSON or PGN).
+Parse move sequences using a Python chess library (e.g. python-chess).
+Extract features such as:
+ Opening name and ECO code
+ The move number when the queen is developed
+ Total game length (number of moves)
+ Outcome (win, draw, loss)
+Store the cleaned data in a structured format (CSV or DataFrame).
 
 Planned Analysis
-Exploratory Data Analysis (EDA): Visualize step counts vs. temperature, humidity, and precipitation.
-Correlation Analysis: Quantify relationships between temperature and activity level.
-Statistical Testing: Test whether mean step counts differ significantly across temperature ranges (e.g., t-tests or ANOVA).
-Machine Learning (later phase): Use regression models to predict daily step count based on weather data.
+
+Descriptive Analysis: Frequency of openings, distribution of game lengths, queen development timing.
+Comparative Analysis:
+ White vs. Black performance
+ Opening type vs. win rate
+Visualization:
+ Bar plots of opening frequencies
+ Histograms of game lengths
+ Boxplots for queen development moves
+Statistical Insights:
+ Correlation between early queen development and win rate 
+ Average moves per game outcome
 
 Expected Insights
-Identify temperature ranges where step count is highest.
-Observe how activity decreases on colder or rainy days.
-Understand whether weather can predict physical activity trends.
+
+Identify my most common and most successful openings.
+See how my queen development timing affects outcomes.
+Understand how my games differ when playing white vs. black.
+Observe trends in my playing duration and efficiency.
 
 Tools & Technologies
-Python, Pandas, NumPy, Matplotlib/Seaborn for analysis and visualization
-Jupyter Notebook for workflow documentation
+Python, pandas, NumPy, python-chess, matplotlib, seaborn
+Jupyter Notebook for EDA and visualization
 GitHub for version control
 
 Limitations & Future Work
-Limited to one individual’s Apple Health data.
-Weather data may not capture micro-climate variations.
-Future work could include comparing results with data from other users or multiple cities.
+Limited to one player’s (my) games.
+APIs may not include every game if privacy settings restrict access.
+Future extensions could include comparison with other players or engine-based accuracy analysis.
