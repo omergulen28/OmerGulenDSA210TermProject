@@ -57,8 +57,6 @@ Limitations & Future Work
 Limited to one player’s (my) games.
 APIs may not include every game if privacy settings restrict access.
 Future extensions could include comparison with other players or engine-based accuracy analysis.
-#ömer
-
 
 
  
