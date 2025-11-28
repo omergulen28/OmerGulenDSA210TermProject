@@ -57,3 +57,100 @@ Limitations & Future Work
 Limited to one player’s (my) games.
 APIs may not include every game if privacy settings restrict access.
 Future extensions could include comparison with other players or engine-based accuracy analysis.
+
+
+1-Data Sources
+
+The primary data source for this project is my personal online chess game history collected from Chess.com. The platform allows users to export their complete game history in PGN (Portable Game Notation) format.
+
+The dataset consists of multiple PGN files covering different time periods. Each file contains structured metadata such as:
+
+Player color (White / Black)
+
+Game result (Win, Loss, Draw)
+
+Opening name and ECO code
+
+Total number of moves
+
+Time control information
+
+The raw PGN files were parsed and transformed into a structured dataset using Python.
+
+2-Methodology
+
+This project follows a standard data science pipeline consisting of the following steps:
+
+ 1-Data Collection
+All game data was downloaded manually from Chess.com.
+
+ 2-Data Cleaning & Preprocessing
+
+PGN files were parsed using the python-chess library
+
+Missing values were handled
+
+Invalid or incomplete games were removed
+
+ 3-Feature Engineering
+New variables were created, including:
+
+Queen development move number
+
+Game phase categorization (Short / Medium / Long)
+
+Aggression score
+
+Numerical encoding of game outcomes
+
+Exploratory Data Analysis (EDA)
+Visual and statistical exploration was conducted using:
+
+Histograms
+
+Box plots
+
+Violin plots
+
+Correlation heatmaps
+
+Hypothesis Testing
+Visual and descriptive statistical techniques were used to test predefined hypotheses.
+
+Hypotheses
+
+The project was guided by the following research hypotheses:
+
+H₀₁ (Null Hypothesis):
+Early queen development has no effect on game outcome.
+
+H₁₁ (Alternative Hypothesis):
+Early queen development significantly affects game outcome.
+
+H₀₂ (Null Hypothesis):
+There is no significant difference in performance when playing White versus Black.
+
+H₁₂ (Alternative Hypothesis):
+Playing color significantly affects game performance.
+
+H₀₃ (Null Hypothesis):
+Game length and game outcome are independent.
+
+H₁₃ (Alternative Hypothesis):
+Game length and game outcome are related.
+
+Findings
+
+The key findings of this project are summarized below:
+
+Early queen development is strongly associated with lower win rates.
+
+Games that last longer tend to have higher probabilities of winning.
+
+Performance varies significantly depending on whether I play White or Black.
+
+Moderate aggressive play is correlated with better game outcomes.
+
+My most successful openings depend on both opening structure and playing color.
+
+These findings confirm that personal gameplay contains consistent, measurable behavioral patterns.
