@@ -74,42 +74,65 @@ This heatmap reveals the most critical insight of the project.
 
 ---
 
-##  4. Machine Learning Modeling
+##  4. Machine Learning Modeling & Interpretation
 
 We implemented three supervised learning models to predict the game outcome (`Win`, `Loss`, `Draw`) based on playing style features (*Aggression, Mobility, Queen Move, Color*).
 
-### Model Accuracy Comparison
+### Model Performance Comparison
 
-| Model | Accuracy | Key Observation |
-| :--- | :--- | :--- |
-| **K-Nearest Neighbors (KNN)** | 69% | Struggled with the "Draw" class due to class imbalance. |
-| **Decision Tree** | 71% | Provided interpretable rules but slightly overfit. |
-| **Random Forest** | **76%** | **Best Performance.** Successfully captured non-linear relationships. |
+While Accuracy gives a general idea, **F1-Score** is a better metric here because our dataset has class imbalance (very few "Draws" compared to Wins/Losses).
 
-### Feature Importance (Random Forest)
-To understand *how* the model predicts wins, we analyzed Feature Importance.
+| Model | Accuracy | Weighted F1-Score | Precision (Win) | Recall (Win) | Key Observation |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **K-Nearest Neighbors (KNN)** | 69% | 0.66 | 0.71 | 0.67 | Struggled with the "Draw" class due to class imbalance. |
+| **Decision Tree** | 71% | 0.71 | 0.80 | 0.67 | Provided interpretable rules but slightly overfit. |
+| **Random Forest** | **76%** | **0.75** | **0.77** | **0.77** | **Best Performance.** Successfully captured non-linear relationships. |
+
+---
+
+###  Interpretation of Results
+
+#### 1. Why did Random Forest perform the best?
+
+Random Forest achieved the highest Accuracy (76%) and F1-Score (0.75), significantly outperforming both KNN and Decision Tree.
+
+* **Handling Non-Linearity:** Chess is complex. A single linear boundary (like in simple regression) or a distance metric (like KNN) often fails to capture the nuance. Random Forest builds many decision trees and averages them, allowing it to capture complex, non-linear relationships between variables (e.g., *Aggression is good, BUT only if Mobility is also high*).
+* **Stability:** The single Decision Tree was prone to overfitting (memorizing the training data). By averaging 100 trees, the Random Forest reduced variance and generalized better to new, unseen games.
+
+---
+
+#### 2. Feature Importance: The "Aggression" Factor
+
+To understand *how* the model predicts wins, we analyzed Feature Importance from the Random Forest model.
 
 ![Feature Importance](visuals/ml_feature_imp.png)
 
 **Discussion:**
-* **Aggression Score** is the dominant predictor. This aligns with the finding that I am a tactical player; active play correlates strongly with winning.
-* **Queen Move** timing is the least important predictor, reinforcing the results from Hypothesis 1.
 
-### Model Performance (Confusion Matrix)
+* **Aggression Score** is the dominant predictor of my wins. In chess, "Aggression" often proxies for **Initiative**. The model picked up on a clear pattern: when I play passively, I am statistically more likely to lose. When I play aggressively (forcing moves, checks, attacks), I force the opponent to react, increasing my winning chances.
+* **Chess Context:** This aligns with the finding that I am a tactical player and with the "Game Length" analysis. Passive play often leads to a slow death or a blunder in a short game. Active play leads to the longer games where my win rate is higher.
+* **Queen Move** timing is the least important predictor, reinforcing the results from Hypothesis 1 that my early Queen moves are not the primary cause of my losses.
+
+---
+
+#### 3. Model Performance: The "Draw" Problem
 
 ![Confusion Matrix](visuals/ml_cm.png)
 
 **Discussion:**
-The Confusion Matrix shows the model is highly accurate at distinguishing **Wins vs. Losses**. However, it struggles to predict **Draws** (Top Left), often misclassifying them as losses. This is likely due to the rarity of draws in the dataset (Class Imbalance).
+
+The Confusion Matrix shows the model is highly accurate at distinguishing **Wins vs. Losses**. However, it struggles to predict **Draws** (Top Left), often misclassifying them as losses. 
+
+* **Reason:** Draws are rare events in this dataset (<5% of games). The models didn't have enough examples to learn the specific patterns that lead to a draw. This is a classic **Class Imbalance** problem.
+* **Solution for Future:** Techniques like **SMOTE** (Synthetic Minority Over-sampling Technique) could create synthetic examples of draws to help the model learn this class better.
 
 ---
 
 ## 5. Final Conclusions
 
-1.  **Survival is Key:** My biggest weakness is opening blunders. If I survive the first 20 moves, my win rate flips from negative to positive.
-2.  **Aggression Pays Off:** The ML analysis proves that higher Aggression Scores correlate with winning. Passive play is a losing strategy for me.
-3.  **Queen Safety:** My early Queen moves are not the primary cause of my losses, debunking my initial assumption.
-
+1. **Survival is Key:** My biggest weakness is opening blunders. If I survive the first 20 moves, my win rate flips from negative to positive.
+2. **Aggression Pays Off:** The ML analysis proves that higher Aggression Scores correlate with winning. Passive play is a losing strategy for me.
+3. **Queen Safety:** My early Queen moves are not the primary cause of my losses, debunking my initial assumption.
 ---
 
 ##  Tools & Technologies
